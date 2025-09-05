@@ -3,6 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { PrismaClient } from '../../generated/prisma';
 import { RpcException } from '@nestjs/microservices';
 import { OrderPaginationDto } from './dto/order-pagination.dto';
+import { ChangeOrderStatusDto } from './dto';
 
 @Injectable()
 export class OrdersService extends PrismaClient implements OnModuleInit {
@@ -27,7 +28,7 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
 
     const currentPage = orderPaginationDto.page;
     const perPage = orderPaginationDto.limit;
-    
+
     return {
       data: await this.order.findMany({
         skip: (currentPage - 1) * perPage,
@@ -60,6 +61,20 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
 
     return order;
 
+  }
+
+  async changeStatus(changeOrderStatusDto: ChangeOrderStatusDto) {
+
+    const { id, status } = changeOrderStatusDto;
+
+    const order = await this.findOne(id);
+    
+    if (order.status === status) return order;
+
+    return this.order.update({
+      where: { id },
+      data: { status }
+    })
   }
 
 }
