@@ -3,6 +3,7 @@ import { OrderStatusList } from "../enum/order.enum";
 import { PaginationDto } from 'src/common';
 import { OrderStatus } from "generated/prisma";
 
+
 export class OrderPaginationDto extends PaginationDto {
     @IsOptional()
     @IsEnum(OrderStatusList, {

@@ -1,12 +1,12 @@
 import { HttpStatus, Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { PrismaClient } from '../../generated/prisma';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { OrderPaginationDto } from './dto/order-pagination.dto';
 import { ChangeOrderStatusDto } from './dto';
 import { firstValueFrom } from 'rxjs';
 import { NATS_SERVICE } from 'src/config/services';
-import { OrderItem, Order } from '../../generated/prisma/index';
+import { PrismaClient } from 'generated/prisma';
+
 
 @Injectable()
 export class OrdersService extends PrismaClient implements OnModuleInit {
